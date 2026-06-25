@@ -1,0 +1,714 @@
+/* ==========================================
+   FITPRO GYM MANAGEMENT SYSTEM
+   MODERN PROFESSIONAL UI
+========================================== */
+
+:root{
+    --primary:#0d6efd;
+    --secondary:#6c757d;
+    --success:#198754;
+    --danger:#dc3545;
+    --warning:#ffc107;
+    --info:#0dcaf0;
+    --dark:#212529;
+    --light:#f8f9fa;
+    --white:#ffffff;
+
+    --shadow-sm:0 2px 10px rgba(0,0,0,.08);
+    --shadow-md:0 8px 25px rgba(0,0,0,.12);
+    --shadow-lg:0 15px 35px rgba(0,0,0,.15);
+
+    --radius:16px;
+}
+
+/* ==========================================
+   GLOBAL
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f7fb;
+    color:#243041;
+    overflow-x:hidden;
+}
+
+a{
+    color:#0d6efd;
+}
+
+.text-muted{
+    color:#667085 !important;
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:linear-gradient(
+        180deg,
+        #212529,
+        #111827
+    );
+    overflow-y:auto;
+    z-index:1000;
+    box-shadow:var(--shadow-md);
+}
+
+.sidebar h3{
+    color:white;
+    text-align:center;
+    padding:20px 10px;
+    font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar .nav-link{
+    color:white;
+    padding:14px 18px;
+    transition:.3s;
+    border-radius:10px;
+    margin:4px 8px;
+}
+
+.sidebar .nav-link:hover{
+    background:var(--primary);
+    transform:translateX(5px);
+}
+
+.sidebar .nav-link.active{
+    background:var(--primary);
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.content{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:20px;
+}
+
+/* ==========================================
+   NAVBAR
+========================================== */
+
+.navbar{
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+}
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.card{
+    border:1px solid rgba(15,23,42,.08);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+    overflow:hidden;
+    transition:.3s ease;
+    background:white;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-lg);
+}
+
+.card-header{
+    font-weight:600;
+}
+
+.management-hero{
+    border:0;
+}
+
+.management-hero .card-header{
+    padding:22px 24px;
+    background:linear-gradient(135deg,#0d6efd,#084298) !important;
+    border:0;
+}
+
+.management-hero h3{
+    font-weight:700;
+    letter-spacing:0;
+}
+
+.management-panel{
+    border:1px solid rgba(13,110,253,.12);
+}
+
+.management-panel > .card-header{
+    padding:16px 20px;
+}
+
+.management-table img{
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    object-fit:cover;
+    box-shadow:var(--shadow-sm);
+}
+
+/* Dashboard Stat Cards */
+
+.stat-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.stat-card::before{
+    content:'';
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-30px;
+    top:-30px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+}
+
+.stat-card h2{
+    font-size:2rem;
+    font-weight:700;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn{
+    border-radius:10px;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    box-shadow:0 4px 15px rgba(13,110,253,.3);
+}
+
+.btn-success{
+    box-shadow:0 4px 15px rgba(25,135,84,.3);
+}
+
+.btn-danger{
+    box-shadow:0 4px 15px rgba(220,53,69,.3);
+}
+
+/* ==========================================
+   TABLES
+========================================== */
+
+.table{
+    border-radius:12px;
+    overflow:hidden;
+    --bs-table-bg:#ffffff;
+    --bs-table-color:#243041;
+    --bs-table-striped-bg:#f7faff;
+    --bs-table-striped-color:#243041;
+    --bs-table-hover-bg:#eef5ff;
+    --bs-table-hover-color:#243041;
+    --bs-table-border-color:#d7e0ee;
+}
+
+.table thead{
+    background:#212529;
+    color:white;
+}
+
+.table tbody tr{
+    transition:.2s;
+}
+
+.table tbody tr:hover{
+    background:#eef5ff;
+}
+
+.table td,
+.table th{
+    vertical-align:middle;
+}
+
+.table.management-table thead th{
+    background:#0d6efd;
+    color:white;
+    border-color:#0b5ed7;
+}
+
+/* ==========================================
+   FORMS
+========================================== */
+
+.form-control,
+.form-select{
+    border-radius:10px;
+    padding:10px 14px;
+    border:1px solid #ddd;
+    background:#ffffff;
+    color:#243041;
+}
+
+.form-control::placeholder{
+    color:#98a2b3;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:0 0 0 .2rem rgba(13,110,253,.2);
+    border-color:var(--primary);
+}
+
+label{
+    font-weight:600;
+    margin-bottom:5px;
+}
+
+/* ==========================================
+   BADGES
+========================================== */
+
+.badge{
+    padding:8px 12px;
+    border-radius:30px;
+    font-size:13px;
+}
+
+/* ==========================================
+   IMAGES
+========================================== */
+
+img{
+    max-width:100%;
+}
+
+.profile-image{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid white;
+    box-shadow:var(--shadow-md);
+}
+
+.trainer-avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:46px;
+    background:linear-gradient(135deg,#0d6efd,#084298);
+    box-shadow:var(--shadow-md);
+}
+
+.member-hero{
+    border:0;
+    overflow:hidden;
+    background:
+        linear-gradient(135deg,rgba(13,110,253,.96),rgba(8,66,152,.94)),
+        url('../images/FitPro Gym Logo.png') right 28px center/180px auto no-repeat;
+}
+
+.member-hero .card-body{
+    padding:34px 30px;
+}
+
+.member-stat{
+    border:1px solid rgba(13,110,253,.12);
+}
+
+.member-stat h6{
+    color:#6c757d;
+    font-weight:700;
+}
+
+.member-stat h4{
+    font-weight:800;
+}
+
+.member-progress{
+    height:14px;
+    border-radius:30px;
+    background:#e9ecef;
+}
+
+.member-progress .progress-bar{
+    border-radius:30px;
+}
+
+.member-mini-card{
+    height:100%;
+    padding:16px;
+    border:1px solid rgba(13,110,253,.12);
+    border-radius:12px;
+    background:#f8fbff;
+    color:#243041;
+}
+
+.member-mini-card small{
+    display:block;
+    color:#6c757d;
+    margin-bottom:6px;
+}
+
+.member-avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:46px;
+    background:linear-gradient(135deg,#198754,#0d6efd);
+    box-shadow:var(--shadow-md);
+}
+
+.member-trainer-card{
+    border:1px solid rgba(13,110,253,.12);
+}
+
+/* ==========================================
+   MODALS
+========================================== */
+
+.modal-content{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.modal-header{
+    background:var(--primary);
+    color:white;
+}
+
+/* ==========================================
+   TOAST ALERTS
+========================================== */
+
+.alert.position-fixed{
+    min-width:280px;
+    border:none;
+    border-radius:12px;
+    box-shadow:var(--shadow-lg);
+    animation:slideIn .4s ease;
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* ==========================================
+   COUNTERS
+========================================== */
+
+.counter{
+    font-size:2rem;
+    font-weight:700;
+}
+
+/* ==========================================
+   CHART CONTAINERS
+========================================== */
+
+.chart-container{
+    background:white;
+    padding:20px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+}
+
+/* ==========================================
+   DARK MODE
+========================================== */
+
+.dark-mode{
+    background:#0f172a;
+    color:#e5e7eb;
+}
+
+.dark-mode .sidebar{
+    background:#020617;
+}
+
+.dark-mode .card,
+.dark-mode .table,
+.dark-mode .navbar,
+.dark-mode .modal-content{
+    background:#111827;
+    color:#e5e7eb;
+    border-color:rgba(148,163,184,.22);
+}
+
+.dark-mode .card-body,
+.dark-mode .modal-body{
+    color:#e5e7eb;
+}
+
+.dark-mode .text-muted{
+    color:#aeb9c9 !important;
+}
+
+.dark-mode .text-dark{
+    color:#111827 !important;
+}
+
+.dark-mode .bg-light,
+.dark-mode .table-light,
+.dark-mode .form-control.bg-light{
+    background:#1f2937 !important;
+    color:#e5e7eb !important;
+    border-color:#334155 !important;
+}
+
+.dark-mode .bg-white{
+    background:#111827 !important;
+    color:#e5e7eb !important;
+}
+
+.dark-mode .table tbody tr:hover{
+    background:#1f2937;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select{
+    background:#0f172a;
+    color:#f8fafc;
+    border-color:#334155;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus{
+    background:#0f172a;
+    color:#f8fafc;
+    border-color:#60a5fa;
+    box-shadow:0 0 0 .2rem rgba(96,165,250,.2);
+}
+
+.dark-mode .form-control::placeholder{
+    color:#94a3b8;
+}
+
+.dark-mode .table{
+    color:#e5e7eb;
+    --bs-table-bg:#111827;
+    --bs-table-color:#e5e7eb;
+    --bs-table-striped-bg:#172033;
+    --bs-table-striped-color:#e5e7eb;
+    --bs-table-hover-bg:#1f2937;
+    --bs-table-hover-color:#ffffff;
+    --bs-table-border-color:#334155;
+}
+
+.dark-mode .table thead,
+.dark-mode .table thead th,
+.dark-mode .table-dark th{
+    background:#0b5ed7 !important;
+    color:#ffffff !important;
+    border-color:#2563eb !important;
+}
+
+.dark-mode .table td,
+.dark-mode .table th{
+    color:inherit;
+    border-color:#334155;
+}
+
+.dark-mode .management-panel,
+.dark-mode .member-stat,
+.dark-mode .member-trainer-card{
+    border-color:rgba(96,165,250,.25);
+}
+
+.dark-mode .member-mini-card,
+.dark-mode .widget,
+.dark-mode .chart-container{
+    background:#1f2937;
+    color:#e5e7eb;
+    border-color:#334155;
+}
+
+.dark-mode .member-mini-card small,
+.dark-mode .member-stat h6{
+    color:#aeb9c9;
+}
+
+.dark-mode .member-progress{
+    background:#334155;
+}
+
+.dark-mode label,
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6,
+.dark-mode p,
+.dark-mode td,
+.dark-mode th{
+    color:inherit;
+}
+
+.dark-mode .alert-info{
+    background:#0c4a6e;
+    color:#e0f2fe;
+    border-color:#0369a1;
+}
+
+.dark-mode .alert-warning{
+    background:#713f12;
+    color:#fef3c7;
+    border-color:#a16207;
+}
+
+.dark-mode .alert-danger{
+    background:#7f1d1d;
+    color:#fee2e2;
+    border-color:#b91c1c;
+}
+
+.dark-mode .alert-success{
+    background:#14532d;
+    color:#dcfce7;
+    border-color:#15803d;
+}
+
+/* ==========================================
+   LOADING SPINNER
+========================================== */
+
+.spinner-border{
+    vertical-align:middle;
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+    background:#eee;
+}
+
+/* ==========================================
+   GLASS EFFECT
+========================================== */
+
+.glass{
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.2);
+}
+
+/* ==========================================
+   DASHBOARD WIDGETS
+========================================== */
+
+.widget{
+    padding:20px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+    background:white;
+}
+
+.widget:hover{
+    transform:translateY(-5px);
+}
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media(max-width:991px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .content{
+        margin-left:0;
+        width:100%;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .card{
+        margin-bottom:15px;
+    }
+
+    h1,h2,h3{
+        font-size:90%;
+    }
+
+    .table{
+        font-size:14px;
+    }
+
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+.fade-up{
+    animation:fadeUp .6s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+

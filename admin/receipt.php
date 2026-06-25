@@ -1,0 +1,398 @@
+<?php
+include '../includes/auth.php';
+include '../config/database.php';
+
+if($_SESSION['role_id'] != 1){
+    header("Location: ../login.php");
+    exit();
+}
+
+$id = intval($_GET['id'] ?? 0);
+
+$query = $conn->query("
+SELECT
+p.*,
+m.fullname,
+m.phone,
+m.email,
+m.plan_amount,
+m.amount_paid,
+m.balance,
+mp.plan_name
+FROM payments p
+JOIN members m
+ON p.member_id = m.id
+LEFT JOIN membership_plans mp
+ON m.plan_id = mp.id
+WHERE p.id = $id
+");
+
+if($query->num_rows == 0){
+    die("Receipt not found");
+}
+
+$data = $query->fetch_assoc();
+
+$receiptNo =
+'FP-' .
+date('Ymd', strtotime($data['payment_date'])) .
+'-' .
+str_pad($data['id'], 5, '0', STR_PAD_LEFT);
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Payment Receipt</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.receipt-card{
+    max-width:850px;
+    margin:40px auto;
+    background:#fff;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.receipt-header{
+    background:linear-gradient(135deg,#0d6efd,#198754);
+    color:white;
+    padding:35px;
+    text-align:center;
+}
+
+.receipt-header h1{
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.receipt-header p{
+    margin:0;
+    opacity:.9;
+}
+
+.receipt-body{
+    padding:35px;
+}
+
+.info-box{
+    background:#f8f9fa;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.summary-card{
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    color:white;
+}
+
+.plan{
+    background:#0d6efd;
+}
+
+.paid{
+    background:#198754;
+}
+
+.balance{
+    background:#dc3545;
+}
+
+.footer-note{
+    text-align:center;
+    margin-top:30px;
+    color:#6c757d;
+}
+
+.logo{
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+@media print{
+
+.no-print{
+    display:none;
+}
+
+body{
+    background:white;
+}
+
+.receipt-card{
+    box-shadow:none;
+    margin:0;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="text-center mt-4 no-print">
+
+<a href="payments.php" class="btn btn-secondary">
+<i class="fa fa-arrow-left"></i>
+Back
+</a>
+
+<button
+onclick="window.print()"
+class="btn btn-success">
+
+<i class="fa fa-print"></i>
+Print Receipt
+
+</button>
+
+</div>
+
+<div class="receipt-card">
+
+<div class="receipt-header">
+
+<div class="logo">
+<i class="fa fa-dumbbell"></i>
+</div>
+
+<h1>FITPRO GYM</h1>
+
+<p>Strength • Discipline • Results</p>
+
+</div>
+
+<div class="receipt-body">
+
+<div class="row mb-4">
+
+<div class="col-md-6">
+
+<div class="info-box">
+
+<h5>
+<i class="fa fa-file-invoice"></i>
+ Receipt Details
+</h5>
+
+<hr>
+
+<p>
+<strong>Receipt No:</strong>
+<?= $receiptNo ?>
+</p>
+
+<p>
+<strong>Payment ID:</strong>
+#<?= $data['id'] ?>
+</p>
+
+<p>
+<strong>Date:</strong>
+<?= $data['payment_date'] ?>
+</p>
+
+<p>
+<strong>Status:</strong>
+
+<?php if($data['status']=='Paid'): ?>
+
+<span class="badge bg-success">
+Paid
+</span>
+
+<?php elseif($data['status']=='Pending'): ?>
+
+<span class="badge bg-warning text-dark">
+Pending
+</span>
+
+<?php else: ?>
+
+<span class="badge bg-danger">
+Failed
+</span>
+
+<?php endif; ?>
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="info-box">
+
+<h5>
+<i class="fa fa-user"></i>
+ Member Details
+</h5>
+
+<hr>
+
+<p>
+<strong>Name:</strong>
+<?= htmlspecialchars($data['fullname']) ?>
+</p>
+
+<p>
+<strong>Phone:</strong>
+<?= htmlspecialchars($data['phone']) ?>
+</p>
+
+<p>
+<strong>Email:</strong>
+<?= htmlspecialchars($data['email']) ?>
+</p>
+
+<p>
+<strong>Plan:</strong>
+<?= htmlspecialchars($data['plan_name']) ?>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="row text-center mb-4">
+
+<div class="col-md-4">
+
+<div class="summary-card plan">
+
+<h6>Plan Cost</h6>
+
+<h3>
+KES <?= number_format($data['plan_amount'],2) ?>
+</h3>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="summary-card paid">
+
+<h6>Total Paid</h6>
+
+<h3>
+KES <?= number_format($data['amount_paid'],2) ?>
+</h3>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="summary-card balance">
+
+<h6>Balance</h6>
+
+<h3>
+KES <?= number_format($data['balance'],2) ?>
+</h3>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="info-box">
+
+<h5>
+<i class="fa fa-money-bill-wave"></i>
+ Payment Information
+</h5>
+
+<hr>
+
+<table class="table table-bordered">
+
+<tr>
+<th width="40%">Amount Paid</th>
+<td>
+KES <?= number_format($data['amount'],2) ?>
+</td>
+</tr>
+
+<tr>
+<th>Payment Method</th>
+<td><?= $data['payment_method'] ?></td>
+</tr>
+
+<tr>
+<th>Reference Number</th>
+<td>
+<?= !empty($data['reference_number'])
+? htmlspecialchars($data['reference_number'])
+: 'N/A' ?>
+</td>
+</tr>
+
+<tr>
+<th>Payment Status</th>
+<td><?= $data['status'] ?></td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="footer-note">
+
+<h5>
+Thank You For Choosing FitPro Gym
+</h5>
+
+<p>
+We appreciate your commitment to fitness and wellness.
+</p>
+
+<p>
+Generated By:
+<strong><?= $_SESSION['fullname'] ?></strong>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

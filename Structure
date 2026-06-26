@@ -1,0 +1,18 @@
+gym-management/
+│
+├── admin/
+├── member/
+├── trainer/
+├── api/
+├── config/
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── includes/
+│
+├── login.php
+├── register.php
+├── logout.php
+└── index.php

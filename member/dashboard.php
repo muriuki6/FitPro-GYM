@@ -238,6 +238,11 @@ Attendance Pulse
 </div>
 <div class="card-body">
 <canvas id="memberAttendanceChart" height="130"></canvas>
+<div class="d-flex justify-content-between flex-wrap gap-2 mt-3">
+<span class="badge bg-primary">Last 7 Days</span>
+<span class="badge bg-success"><?= number_format($monthlyAttendance) ?> visits this month</span>
+<span class="badge bg-info text-dark"><?= number_format($attendanceCount) ?> total visits</span>
+</div>
 </div>
 </div>
 </div>
@@ -328,32 +333,44 @@ Recent Attendance
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-new Chart(
-    document.getElementById('memberAttendanceChart'),
-    {
-        type: 'bar',
-        data: {
-            labels: <?= json_encode($chartLabels) ?>,
-            datasets: [{
-                label: 'Visits',
-                data: <?= json_encode($attendanceChartData) ?>,
-                backgroundColor: '#0d6efd'
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
+const memberAttendanceCanvas = document.getElementById('memberAttendanceChart');
+
+if(memberAttendanceCanvas && window.Chart){
+    new Chart(
+        memberAttendanceCanvas,
+        {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode($chartLabels) ?>,
+                datasets: [{
+                    label: 'Visits',
+                    data: <?= json_encode($attendanceChartData) ?>,
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        }
                     }
                 }
             }
         }
-    }
-);
+    );
+}
 </script>
 
 <?php include '../includes/footer.php'; ?>

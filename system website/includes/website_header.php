@@ -36,6 +36,6 @@
     <link rel="stylesheet" href="<?php echo isset($basePath) ? $basePath : ''; ?>assets/css/website-style.css">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo isset($basePath) ? $basePath : ''; ?>assets/images/favicon.png">
+    <link rel="icon" type="image/png" href="<?php echo isset($basePath) ? $basePath : ''; ?>system website/assets/images/FitPro Gym Logo.png">
 </head>
 <body>

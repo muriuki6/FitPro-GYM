@@ -15,12 +15,12 @@ include 'includes/website_header.php';
 include 'includes/website_navbar.php';
 
 // Database connection
-include '../config/database.php';
+include __DIR__ . '/../config/database.php';
 
 // Fetch statistics from database
 $memberCount = $conn->query("SELECT COUNT(*) as count FROM members")->fetch_assoc()['count'];
 $trainerCount = $conn->query("SELECT COUNT(*) as count FROM trainers")->fetch_assoc()['count'];
-$classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc()['count'];
+$classCount = $conn->query("SELECT COUNT(*) as count FROM attendance WHERE status='Present'")->fetch_assoc()['count'];
 
 ?>
 
@@ -139,7 +139,7 @@ $classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc
             $planIndex = 0;
             
             while ($plan = $plansQuery->fetch_assoc()):
-                $isPopular = ($plan['name'] == 'Premium' || $plan['name'] == 'Pro');
+                $isPopular = ($plan['plan_name'] == 'Premium' || $plan['plan_name'] == 'Pro');
                 $delay = $planIndex * 100;
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?php echo $delay; ?>">
@@ -148,7 +148,7 @@ $classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc
                         <span class="badge badge-gradient">Most Popular</span>
                     <?php endif; ?>
                     
-                    <h3 class="h4 mb-2"><?php echo htmlspecialchars($plan['name']); ?></h3>
+                    <h3 class="h4 mb-2"><?php echo htmlspecialchars($plan['plan_name']); ?></h3>
                     <div class="plan-price">
                         <?php echo htmlspecialchars($plan['price']); ?>
                         <span class="text-muted fs-6">/month</span>
@@ -162,7 +162,7 @@ $classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc
                         <li>Gym Access</li>
                         <li>Group Classes</li>
                         <li>Member Support</li>
-                        <?php if (strpos($plan['name'], 'Premium') !== false || strpos($plan['name'], 'Pro') !== false): ?>
+                        <?php if (strpos($plan['plan_name'], 'Premium') !== false || strpos($plan['plan_name'], 'Pro') !== false): ?>
                             <li>Personal Training</li>
                             <li>Nutrition Consultation</li>
                         <?php endif; ?>
@@ -212,7 +212,7 @@ $classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc
                         </div>
                     </div>
                     <div class="trainer-info">
-                        <h5 class="trainer-name"><?php echo htmlspecialchars($trainer['name']); ?></h5>
+                        <h5 class="trainer-name"><?php echo htmlspecialchars($trainer['fullname']); ?></h5>
                         <p class="trainer-specialty">
                             <?php echo htmlspecialchars($trainer['specialization']); ?>
                         </p>
@@ -336,4 +336,6 @@ $classCount = $conn->query("SELECT COUNT(*) as count FROM classes")->fetch_assoc
         }
     });
 </script>
+
+
 

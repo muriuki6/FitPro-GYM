@@ -9,7 +9,7 @@ $basePath = "";
 
 include 'includes/website_header.php';
 include 'includes/website_navbar.php';
-include '../config/database.php';
+include __DIR__ . '/../config/database.php';
 ?>
 
 <!-- Hero Section -->
@@ -36,7 +36,7 @@ include '../config/database.php';
             $planIndex = 0;
             
             while ($plan = $plansQuery->fetch_assoc()):
-                $isPopular = ($plan['name'] == 'Premium' || $plan['name'] == 'Pro');
+                $isPopular = ($plan['plan_name'] == 'Premium' || $plan['plan_name'] == 'Pro');
                 $delay = $planIndex * 100;
             ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?php echo $delay; ?>">
@@ -45,7 +45,7 @@ include '../config/database.php';
                         <span class="badge badge-gradient">Most Popular</span>
                     <?php endif; ?>
                     
-                    <h3 class="h4 mb-2"><?php echo htmlspecialchars($plan['name']); ?></h3>
+                    <h3 class="h4 mb-2"><?php echo htmlspecialchars($plan['plan_name']); ?></h3>
                     <div class="plan-price">
                         KES <?php echo number_format($plan['price'], 0); ?>
                         <span class="text-muted fs-6">/month</span>
@@ -61,19 +61,19 @@ include '../config/database.php';
                         <li>Group Classes</li>
                         <li>Mobile App Access</li>
                         <li>Member Community</li>
-                        <?php if (strpos($plan['name'], 'Premium') !== false || strpos($plan['name'], 'Pro') !== false): ?>
+                        <?php if (strpos($plan['plan_name'], 'Premium') !== false || strpos($plan['plan_name'], 'Pro') !== false): ?>
                             <li>Personal Training (4 sessions)</li>
                             <li>Nutrition Consultation</li>
                             <li>Progress Tracking</li>
                             <li>Priority Support</li>
                         <?php endif; ?>
-                        <?php if (strpos($plan['name'], 'Elite') !== false): ?>
+                        <?php if (strpos($plan['plan_name'], 'Elite') !== false): ?>
                             <li>Unlimited Personal Training</li>
                             <li>VIP Services</li>
                         <?php endif; ?>
                     </ul>
                     
-                    <button class="btn btn-gradient w-100" data-bs-toggle="modal" data-bs-target="#joinModal" onclick="setPlan('<?php echo htmlspecialchars($plan['name']); ?>', <?php echo $plan['price']; ?>)">
+                    <button class="btn btn-gradient w-100" data-bs-toggle="modal" data-bs-target="#joinModal" onclick="setPlan('<?php echo htmlspecialchars($plan['plan_name']); ?>', <?php echo $plan['price']; ?>)">
                         Join Now
                     </button>
                 </div>
@@ -357,8 +357,8 @@ include '../config/database.php';
                             $plansQuery = $conn->query("SELECT * FROM membership_plans");
                             while ($plan = $plansQuery->fetch_assoc()):
                             ?>
-                            <option value="<?php echo htmlspecialchars($plan['name']); ?>">
-                                <?php echo htmlspecialchars($plan['name']); ?> - KES <?php echo number_format($plan['price'], 0); ?>/month
+                            <option value="<?php echo htmlspecialchars($plan['plan_name']); ?>">
+                                <?php echo htmlspecialchars($plan['plan_name']); ?> - KES <?php echo number_format($plan['price'], 0); ?>/month
                             </option>
                             <?php endwhile; ?>
                         </select>
@@ -403,3 +403,5 @@ include '../config/database.php';
         modal.hide();
     }
 </script>
+
+

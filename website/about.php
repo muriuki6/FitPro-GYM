@@ -9,7 +9,7 @@ $basePath = "";
 
 include 'includes/website_header.php';
 include 'includes/website_navbar.php';
-include '../config/database.php';
+include __DIR__ . '/../config/database.php';
 ?>
 
 <!-- Hero Section -->
@@ -465,3 +465,4 @@ include '../config/database.php';
 
 <!-- Footer -->
 <?php include 'includes/website_footer.php'; ?>
+

@@ -42,7 +42,7 @@
 </div>
 </footer>
 
-<a class="floating-whatsapp" href="https://wa.me/254700000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+<a class="floating-whatsapp" href="https://wa.me/254769720655" target="_blank" rel="noopener" aria-label="WhatsApp">
 <i class="fab fa-whatsapp"></i>
 </a>
 <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">

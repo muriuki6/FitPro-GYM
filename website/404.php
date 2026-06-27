@@ -1,17 +1,17 @@
 <?php
-http_response_code(404);
-$pageTitle = "Page Not Found | FitPro Gym";
-$basePath = "";
-include 'includes/website_header.php';
-include 'includes/website_navbar.php';
+$pageTitle = 'Page Not Found | FitPro Gym';
+$pageDescription = 'The requested FitPro Gym page could not be found.';
+$activePage = '';
+include __DIR__ . '/includes/header.php';
 ?>
-<section class="hero" style="min-height:70vh">
-<div class="hero-content" data-aos="fade-up">
-<h1 class="display-1 fw-bold">404</h1>
-<p class="hero-subtitle">The page you are looking for does not exist.</p>
-<a href="index.php" class="btn btn-gradient btn-lg">Back Home</a>
+
+<section class="page-hero">
+<div class="container position-relative text-center">
+<span class="eyebrow"><i class="fa fa-triangle-exclamation"></i> 404</span>
+<h1 class="hero-title">This Page Missed <span>Leg Day.</span></h1>
+<p class="page-copy mx-auto">The page you are looking for is unavailable or has moved.</p>
+<a href="index.php" class="btn btn-gradient mt-3">Back To Home</a>
 </div>
 </section>
-<?php include 'includes/website_footer.php'; ?>
 
-
+<?php include __DIR__ . '/includes/footer.php'; ?>

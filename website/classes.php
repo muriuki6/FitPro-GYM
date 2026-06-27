@@ -1,64 +1,54 @@
 <?php
-$pageTitle = "Fitness Classes | FitPro Gym";
-$basePath = "";
-include 'includes/website_header.php';
-include 'includes/website_navbar.php';
-include __DIR__ . '/../config/database.php';
+$pageTitle = 'Classes | FitPro Gym';
+$pageDescription = 'View FitPro Gym weekly timetable, class search, filters, and trainer assignments.';
+$activePage = 'classes';
+include __DIR__ . '/includes/header.php';
 
-$trainers = [];
-$trainerResult = $conn->query("SELECT fullname FROM trainers WHERE status='Active' ORDER BY fullname ASC");
-while($row = $trainerResult->fetch_assoc()){
-    $trainers[] = $row['fullname'];
+$classes = table_exists($conn, 'classes')
+    ? website_query_rows($conn, 'classes', "SELECT * FROM classes ORDER BY id DESC")
+    : fallback_classes();
+if(count($classes) === 0){
+    $classes = fallback_classes();
 }
-
-$classes = [
-    ['Strength Lab','strength','Monday, Wednesday, Friday','6:00 PM',$trainers[0] ?? 'FitPro Coach','Progressive strength training with coaching on form and safe loading.','dumbbell'],
-    ['HIIT Burn','cardio','Tuesday, Thursday','7:00 AM',$trainers[1] ?? 'FitPro Coach','High-energy intervals for conditioning, fat loss, and athletic performance.','fire'],
-    ['Mobility Flow','wellness','Saturday','8:30 AM',$trainers[2] ?? 'FitPro Coach','Mobility, flexibility, and recovery work for better movement.','spa'],
-    ['Box Fit','cardio','Friday','5:30 PM',$trainers[0] ?? 'FitPro Coach','Boxing-inspired conditioning with footwork, power, and endurance.','boxing-glove'],
-    ['Core Control','strength','Sunday','9:00 AM',$trainers[1] ?? 'FitPro Coach','Core stability, posture, and full-body control training.','person-running'],
-    ['Yoga Reset','wellness','Wednesday','6:30 AM',$trainers[2] ?? 'FitPro Coach','Calm, restorative movement for recovery and balance.','leaf'],
-];
+$trainers = website_query_rows($conn, 'trainers', "SELECT fullname, specialization FROM trainers ORDER BY id DESC LIMIT 8");
+$days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 ?>
 
-<section class="hero" style="min-height:55vh">
-<div class="hero-content" data-aos="fade-up">
-<h1 class="display-4 fw-bold">Weekly Classes</h1>
-<p class="hero-subtitle">Search, filter, and find the right session for your training week.</p>
+<section class="page-hero">
+<div class="container position-relative">
+<span class="eyebrow"><i class="fa fa-calendar-days"></i> Classes</span>
+<h1 class="hero-title">Find Your Next <span>Session.</span></h1>
+<p class="page-copy">Search by class, filter by level, and check the weekly timetable before you train.</p>
 </div>
 </section>
 
-<section class="py-5">
-<div class="container-fluid px-4">
-<div class="row align-items-end g-3 mb-4">
-<div class="col-lg-5">
-<h2 class="section-title text-start mb-2">Class Timetable</h2>
-<p class="section-subtitle text-start">Trainer assignments use active trainers from your system.</p>
-</div>
+<section class="section-pad">
+<div class="container">
+<div class="row g-3 mb-4 reveal">
+<div class="col-lg-8"><input id="classSearch" class="form-control" placeholder="Search classes, trainers, categories..."></div>
 <div class="col-lg-4">
-<input type="search" id="classSearch" class="form-control form-control-lg" placeholder="Search classes or trainers">
-</div>
-<div class="col-lg-3">
-<div class="d-flex gap-2 flex-wrap justify-content-lg-end">
-<?php foreach(['all'=>'All','strength'=>'Strength','cardio'=>'Cardio','wellness'=>'Wellness'] as $key=>$label): ?>
-<button class="btn btn-outline-success filter-btn <?= $key==='all'?'active':'' ?>" data-filter="<?= $key ?>"><?= $label ?></button>
-<?php endforeach; ?>
-</div>
+<select id="classLevel" class="form-select">
+<option value="all">All levels</option>
+<option value="Beginner">Beginner</option>
+<option value="Intermediate">Intermediate</option>
+<option value="All Levels">All Levels</option>
+</select>
 </div>
 </div>
-
-<div class="row g-4" id="classesGrid">
-<?php foreach($classes as $class): ?>
-<div class="col-lg-4 col-md-6 class-item" data-category="<?= htmlspecialchars($class[1]) ?>" data-search="<?= htmlspecialchars(strtolower(implode(' ', $class))) ?>" data-aos="fade-up">
-<div class="class-card">
-<div class="icon-box mb-4"><i class="fa fa-<?= htmlspecialchars($class[6]) ?>"></i></div>
-<span class="badge badge-gradient mb-3"><?= htmlspecialchars(ucfirst($class[1])) ?></span>
-<h4><?= htmlspecialchars($class[0]) ?></h4>
-<p class="mb-2"><i class="fa fa-calendar text-success me-2"></i><?= htmlspecialchars($class[2]) ?></p>
-<p class="mb-2"><i class="fa fa-clock text-success me-2"></i><?= htmlspecialchars($class[3]) ?></p>
-<p class="mb-3"><i class="fa fa-user-tie text-success me-2"></i><?= htmlspecialchars($class[4]) ?></p>
-<p><?= htmlspecialchars($class[5]) ?></p>
-<a href="contact.php" class="btn btn-gradient w-100">Reserve Spot</a>
+<div class="row g-4">
+<?php foreach($classes as $index => $class):
+$name = $class['name'] ?? $class['class_name'] ?? 'FitPro Class';
+$level = $class['level'] ?? ($index % 2 ? 'Intermediate' : 'All Levels');
+$trainerName = $class['trainer'] ?? $class['trainer_name'] ?? ($trainers[$index % max(1, count($trainers))]['fullname'] ?? 'FitPro Coach');
+?>
+<div class="col-md-6 col-xl-3 reveal" data-class-card data-level="<?= h($level) ?>">
+<div class="class-card p-4">
+<span class="skill-pill mb-3"><?= h($class['category'] ?? 'Fitness') ?></span>
+<h3 class="fw-bold"><?= h($name) ?></h3>
+<p class="text-muted"><?= h($class['description'] ?? 'Coach-led training designed for safe, energetic progress.') ?></p>
+<p class="mb-2"><i class="fa fa-clock text-primary me-2"></i><?= h($class['time'] ?? $class['schedule_time'] ?? $days[$index % count($days)] . ' 6:00 PM') ?></p>
+<p class="mb-2"><i class="fa fa-user text-success me-2"></i><?= h($trainerName) ?></p>
+<p class="mb-0"><i class="fa fa-signal text-primary me-2"></i><?= h($level) ?></p>
 </div>
 </div>
 <?php endforeach; ?>
@@ -66,14 +56,28 @@ $classes = [
 </div>
 </section>
 
-<script>
-document.getElementById('classSearch')?.addEventListener('input', function(){
-    const value = this.value.toLowerCase();
-    document.querySelectorAll('.class-item').forEach(item => {
-        item.style.display = item.dataset.search.includes(value) ? '' : 'none';
-    });
-});
-</script>
+<section class="section-pad section-soft">
+<div class="container">
+<div class="text-center mb-5 reveal">
+<span class="section-kicker">Weekly Timetable</span>
+<h2 class="section-title">Plan Your Training Week</h2>
+</div>
+<div class="table-responsive reveal">
+<table class="table table-modern table-bordered align-middle">
+<thead><tr><th>Day</th><th>Morning</th><th>Evening</th><th>Coach</th></tr></thead>
+<tbody>
+<?php foreach($days as $index => $day): ?>
+<tr>
+<td class="fw-bold"><?= h($day) ?></td>
+<td><?= h($classes[$index % count($classes)]['name'] ?? $classes[$index % count($classes)]['class_name'] ?? 'Strength Lab') ?> - 6:00 AM</td>
+<td><?= h($classes[($index + 1) % count($classes)]['name'] ?? $classes[($index + 1) % count($classes)]['class_name'] ?? 'HIIT Burn') ?> - 6:30 PM</td>
+<td><?= h($trainers[$index % max(1, count($trainers))]['fullname'] ?? 'FitPro Coach') ?></td>
+</tr>
+<?php endforeach; ?>
+</tbody>
+</table>
+</div>
+</div>
+</section>
 
-<?php include 'includes/website_footer.php'; ?>
-
+<?php include __DIR__ . '/includes/footer.php'; ?>

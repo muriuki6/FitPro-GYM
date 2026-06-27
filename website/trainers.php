@@ -1,81 +1,70 @@
 <?php
-$pageTitle = "Our Trainers | FitPro Gym";
-$basePath = "";
-include 'includes/website_header.php';
-include 'includes/website_navbar.php';
-include __DIR__ . '/../config/database.php';
+$pageTitle = 'Trainers | FitPro Gym';
+$pageDescription = 'Meet FitPro Gym trainers, skills, ratings, experience, and social profiles.';
+$activePage = 'trainers';
+include __DIR__ . '/includes/header.php';
 
-$trainersQuery = $conn->query("
-SELECT *
-FROM trainers
-WHERE status='Active'
-ORDER BY fullname ASC
-");
+$trainers = website_query_rows($conn, 'trainers', "SELECT * FROM trainers ORDER BY id DESC");
 ?>
 
-<section class="hero" style="min-height:55vh">
-<div class="hero-content" data-aos="fade-up">
-<h1 class="display-4 fw-bold">Meet Our Expert Trainers</h1>
-<p class="hero-subtitle">Certified coaches ready to support your fitness goals.</p>
+<section class="page-hero">
+<div class="container position-relative">
+<span class="eyebrow"><i class="fa fa-user-tie"></i> Trainers</span>
+<h1 class="hero-title">Coaches Who Make Progress <span>Practical.</span></h1>
+<p class="page-copy">Our trainer cards are powered by the existing trainer database and enhanced with public-facing experience, skills, ratings, and social links.</p>
 </div>
 </section>
 
-<section class="py-5">
-<div class="container-fluid px-4">
-<div class="row align-items-end g-3 mb-4">
-<div class="col-lg-6">
-<h2 class="section-title text-start mb-2">Coaching Team</h2>
-<p class="section-subtitle text-start">Loaded from the existing trainers table.</p>
+<section class="section-pad">
+<div class="container">
+<div class="row g-4">
+<?php if(count($trainers) > 0): ?>
+<?php foreach($trainers as $index => $trainer):
+$skills = array_filter(array_map('trim', explode(',', $trainer['specialization'] ?? 'Strength, Conditioning, Coaching')));
+?>
+<div class="col-md-6 col-xl-4 reveal">
+<div class="trainer-card overflow-hidden">
+<img class="trainer-img" src="<?= h(image_url($trainer['photo'] ?? '')) ?>" alt="<?= h($trainer['fullname']) ?>">
+<div class="p-4">
+<div class="d-flex justify-content-between align-items-start gap-3">
+<div>
+<h3 class="fw-bold mb-1"><?= h($trainer['fullname']) ?></h3>
+<p class="text-primary fw-semibold mb-2"><?= h($trainer['specialization'] ?? 'Personal Trainer') ?></p>
 </div>
-<div class="col-lg-6">
-<input type="search" class="form-control form-control-lg" id="trainerSearch" placeholder="Search trainers by name or specialization">
+<span class="badge bg-success"><?= h($trainer['status'] ?? 'Active') ?></span>
+</div>
+<div class="rating mb-3"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> <span class="text-muted">4.<?= 7 + ($index % 2) ?></span></div>
+<p class="text-muted">Experience: <?= 3 + $index ?>+ years helping members train safely and consistently.</p>
+<div class="d-flex flex-wrap gap-2 mb-3">
+<?php foreach(array_slice($skills, 0, 4) as $skill): ?>
+<span class="skill-pill"><?= h($skill) ?></span>
+<?php endforeach; ?>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+<small class="text-muted"><i class="fa fa-phone me-1"></i><?= h($trainer['phone'] ?? 'Front desk') ?></small>
+<div class="social-row">
+<a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+<a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
 </div>
 </div>
-
-<div class="row g-4" id="trainersGrid">
-<?php while($trainer = $trainersQuery->fetch_assoc()): ?>
-<div class="col-lg-4 col-md-6 trainer-item" data-aos="fade-up" data-trainer="<?= htmlspecialchars(strtolower($trainer['fullname'].' '.$trainer['specialization'])) ?>">
-<div class="trainer-card">
-<?php if(!empty($trainer['photo'])): ?>
-<img src="../assets/images/<?= htmlspecialchars($trainer['photo']) ?>" class="trainer-img" alt="<?= htmlspecialchars($trainer['fullname']) ?>">
+</div>
+</div>
+</div>
+<?php endforeach; ?>
 <?php else: ?>
-<div class="trainer-avatar"><i class="fa fa-user-tie"></i></div>
+<div class="col-12"><div class="alert alert-info">Trainers will appear here once they are added in the admin panel.</div></div>
 <?php endif; ?>
-<div class="card-body">
-<h5 class="trainer-name"><?= htmlspecialchars($trainer['fullname']) ?></h5>
-<p class="trainer-specialty text-success fw-bold"><?= htmlspecialchars($trainer['specialization'] ?: 'Fitness Coach') ?></p>
-<p class="mb-2"><i class="fa fa-briefcase text-primary me-2"></i>5+ years practical coaching experience</p>
-<p class="mb-2"><i class="fa fa-dumbbell text-primary me-2"></i>Strength, conditioning, mobility, accountability</p>
-<div class="mb-3">
-<i class="fa fa-star text-warning"></i>
-<i class="fa fa-star text-warning"></i>
-<i class="fa fa-star text-warning"></i>
-<i class="fa fa-star text-warning"></i>
-<i class="fa fa-star-half-alt text-warning"></i>
-<span class="text-muted small">(4.8 rating)</span>
-</div>
-<div class="social-links mb-3">
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-whatsapp"></i></a>
-</div>
-<a href="contact.php" class="btn btn-gradient w-100"><i class="fa fa-calendar me-2"></i>Book a Session</a>
-</div>
-</div>
-</div>
-<?php endwhile; ?>
 </div>
 </div>
 </section>
 
-<script>
-document.getElementById('trainerSearch')?.addEventListener('input', function(){
-    const value = this.value.toLowerCase();
-    document.querySelectorAll('.trainer-item').forEach(item => {
-        item.style.display = item.dataset.trainer.includes(value) ? '' : 'none';
-    });
-});
-</script>
+<section class="section-pad section-soft">
+<div class="container text-center reveal">
+<span class="section-kicker">Personal Training</span>
+<h2 class="section-title">Book A Coaching Conversation</h2>
+<p class="section-subtitle mx-auto">Talk to the team about your goals and get matched with the right trainer for your schedule, experience, and training style.</p>
+<a class="btn btn-gradient mt-3" href="contact.php">Talk To The Team</a>
+</div>
+</section>
 
-<?php include 'includes/website_footer.php'; ?>
-
+<?php include __DIR__ . '/includes/footer.php'; ?>

@@ -85,6 +85,7 @@ if($requestMethod === 'POST' && isset($_POST['subscribe'])){
 </form>
 </div>
 </div>
+
 <div class="col-lg-5 reveal">
 <div class="premium-card p-4 mb-4">
 <h3 class="fw-bold">Business Hours</h3>
@@ -92,23 +93,8 @@ if($requestMethod === 'POST' && isset($_POST['subscribe'])){
 <p class="mb-2"><strong>Saturday:</strong> 6:00 AM - 9:00 PM</p>
 <p class="mb-0"><strong>Sunday:</strong> 7:00 AM - 6:00 PM</p>
 </div>
-<div class="premium-card p-4">
-<h3 class="fw-bold">Quick Links</h3>
-<p class="text-muted"><i class="fa fa-location-dot text-primary me-2"></i>Nairobi, Kenya</p>
-<p class="text-muted"><i class="fa fa-phone text-success me-2"></i>+254 700 000 000</p>
-<p class="text-muted"><i class="fa fa-envelope text-primary me-2"></i>hello@fitprogym.local</p>
-<div class="social-row mt-3">
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-x-twitter"></i></a>
-<a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-</div>
-</div>
-</div>
-<div class="mt-5 reveal">
-<iframe class="map-frame" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Nairobi%20Kenya&output=embed"></iframe>
-</div>
+
+<!-- NEWSLETTER -->
 <div id="newsletter" class="premium-card p-4 mt-4 reveal">
 <div class="row align-items-center g-3">
 <div class="col-lg-7">
@@ -119,11 +105,32 @@ if($requestMethod === 'POST' && isset($_POST['subscribe'])){
 <form method="post" class="d-flex gap-2">
 <input class="form-control" type="email" name="newsletter_email" placeholder="Email address" required>
 <button class="btn btn-gradient" name="subscribe" type="submit">Subscribe</button>
+</div>
+</div>
+</div>
+</div>
 </form>
+
+
+
+
+<!-- MAP -->
+
+<section class="container pb-5">
+
+<div class="card contact-card overflow-hidden">
+
+<iframe
+src="https://maps.google.com/maps?q=Nairobi%20Kenya&t=&z=13&ie=UTF8&iwloc=&output=embed"
+width="100%"
+height="450"
+style="border:0;"
+allowfullscreen>
+</iframe>
+
 </div>
-</div>
-</div>
-</div>
+
+</section>
 </section>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

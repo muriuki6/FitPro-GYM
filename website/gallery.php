@@ -11,7 +11,13 @@ $items = [
     ['download(4).jpg', 'facility', 'Cardio Zone'],
     ['Personal Training Services in Chicago IL _ 360 Vitality Fitness.jpg', 'training', 'Performance Setup'],
     ['Some amazing shots of @wgberesfield 🙌__📸 @bigdogvisions_x.jpg', 'classes', 'Coached Session'],
-    ['Personal Trainer.jpg', 'facility', 'Gym Interior'],
+    ['Olahraga.jpg', 'facility', 'Gym Interior'],
+    ['download (1).jpg', 'facility', 'Gym Interior'],
+    ['download (2).jpg', 'facility', 'Gym Interior'],
+    ['Triceps Pushdown for Sculpted Arms-Blakspesh fitness.jpg', 'training', 'Member Training'],
+    ['gym rat.jpg', 'facility', 'Gym Interior'],
+    ['gym.jpg', 'facility', 'Gym Interior'],
+    ['Personal.jpg', 'facility', 'Gym Interior'],
 ];
 ?>
 

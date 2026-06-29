@@ -81,7 +81,31 @@ BETWEEN CURDATE()
 AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
 ")->fetch_assoc()['total'];
 
+/* ===============================
+   FITNESS CLASSES STATISTICS
+================================ */
 
+$totalClasses = $conn->query("
+SELECT COUNT(*) AS total
+FROM classes
+")->fetch_assoc()['total'];
+
+$activeClasses = $conn->query("
+SELECT COUNT(*) AS total
+FROM classes
+WHERE status='Active'
+")->fetch_assoc()['total'];
+
+$totalClassCapacity = $conn->query("
+SELECT IFNULL(SUM(capacity),0) AS total
+FROM classes
+")->fetch_assoc()['total'];
+
+$todayClasses = $conn->query("
+SELECT COUNT(*) AS total
+FROM classes
+WHERE DATE(schedule)=CURDATE()
+")->fetch_assoc()['total'];
 
 
 include '../includes/header.php';
@@ -116,164 +140,245 @@ Manage members, attendance, trainers, payments and gym operations from one dashb
 
 </div>
 
-<!-- Statistics Cards -->
+<!-- =========================
+     Statistics Cards
+========================= -->
 
 <div class="row">
 
-<div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
 
-<div class="card shadow border-0 h-100">
+        <div class="card shadow border-0 h-100">
 
-<div class="card-body">
+            <div class="card-body">
 
-<i class="fa fa-users fa-2x mb-2 text-primary"></i>
+                <i class="fa fa-users fa-2x mb-2 text-primary"></i>
 
-<h6>Total Members</h6>
+                <h6>Total Members</h6>
 
-<h2><?= $totalMembers ?></h2>
+                <h2><?= $totalMembers ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-user-check fa-2x mb-2 text-success"></i>
+
+                <h6>Active Members</h6>
+
+                <h2><?= $activeMembers ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-dumbbell fa-2x mb-2 text-warning"></i>
+
+                <h6>Total Trainers</h6>
+
+                <h2><?= $totalTrainers ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-money-bill-wave fa-2x mb-2 text-success"></i>
+
+                <h6>Total Revenue</h6>
+
+                <h2>KES <?= number_format($totalRevenue) ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-<div class="card shadow border-0 h-100">
-
-<div class="card-body">
-
-<i class="fa fa-user-check fa-2x mb-2 text-success"></i>
-
-<h6>Active Members</h6>
-
-<h2><?= $activeMembers ?></h2>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-<div class="card shadow border-0 h-100">
-
-<div class="card-body">
-
-<i class="fa fa-dumbbell fa-2x mb-2 text-warning"></i>
-
-<h6>Total Trainers</h6>
-
-<h2><?= $totalTrainers ?></h2>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-3 mb-3">
-
-<div class="card shadow border-0 h-100">
-
-<div class="card-body">
-
-<i class="fa fa-money-bill-wave fa-2x mb-2 text-success"></i>
-
-<h6>Total Revenue</h6>
-
-<h2>KES <?= number_format($totalRevenue) ?></h2>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Second Row -->
+<!-- =========================
+     Second Row
+========================= -->
 
 <div class="row">
 
-<div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
 
-<div class="card shadow border-success h-100">
+        <div class="card shadow border-success h-100">
 
-<div class="card-body">
+            <div class="card-body">
 
-<i class="fa fa-chart-line fa-2x mb-2 text-success"></i>
+                <i class="fa fa-chart-line fa-2x mb-2 text-success"></i>
 
-<h6>Monthly Revenue</h6>
+                <h6>Monthly Revenue</h6>
 
-<h2>
-KES <?= number_format($monthlyRevenue) ?>
-</h2>
+                <h2>KES <?= number_format($monthlyRevenue) ?></h2>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
 
-<div class="card shadow border-primary h-100">
+        <div class="card shadow border-primary h-100">
 
-<div class="card-body">
+            <div class="card-body">
 
-<i class="fa fa-calendar-check fa-2x mb-2 text-primary"></i>
+                <i class="fa fa-calendar-check fa-2x mb-2 text-primary"></i>
 
-<h6>Today's Attendance</h6>
+                <h6>Today's Attendance</h6>
 
-<h2><?= $todayAttendance ?></h2>
+                <h2><?= $todayAttendance ?></h2>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
 
-<div class="card shadow border-warning h-100">
+        <div class="card shadow border-warning h-100">
 
-<div class="card-body">
+            <div class="card-body">
 
-<i class="fa fa-clock fa-2x mb-2 text-warning"></i>
+                <i class="fa fa-clock fa-2x mb-2 text-warning"></i>
 
-<h6>Expiring Soon</h6>
+                <h6>Expiring Soon</h6>
 
-<h2><?= $expiringSoon ?></h2>
+                <h2><?= $expiringSoon ?></h2>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
 
-<div class="card shadow border-danger h-100">
+        <div class="card shadow border-danger h-100">
 
-<div class="card-body">
+            <div class="card-body">
 
-<i class="fa fa-exclamation-triangle fa-2x mb-2 text-danger"></i>
+                <i class="fa fa-exclamation-triangle fa-2x mb-2 text-danger"></i>
 
-<h6>Expired Members</h6>
+                <h6>Expired Members</h6>
 
-<h2><?= $expiredMembers ?></h2>
+                <h2><?= $expiredMembers ?></h2>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div>
 
+<!-- =========================
+     Third Row - Fitness Classes
+========================= -->
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-info h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-dumbbell fa-2x mb-2 text-info"></i>
+
+                <h6>Total Classes</h6>
+
+                <h2><?= $totalClasses ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-success h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-check-circle fa-2x mb-2 text-success"></i>
+
+                <h6>Active Classes</h6>
+
+                <h2><?= $activeClasses ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-primary h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-users fa-2x mb-2 text-primary"></i>
+
+                <h6>Total Class Capacity</h6>
+
+                <h2><?= $totalClassCapacity ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-warning h-100">
+
+            <div class="card-body">
+
+                <i class="fa fa-calendar-day fa-2x mb-2 text-warning"></i>
+
+                <h6>Today's Classes</h6>
+
+                <h2><?= $todayClasses ?></h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 <!-- Upcoming Expiry Notifications -->
 
 <div class="card shadow mt-4 mb-4">

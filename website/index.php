@@ -1,6 +1,6 @@
 <?php
-$pageTitle = 'FitPro Gym | Premium Fitness Center';
-$pageDescription = 'Join FitPro Gym for expert coaching, modern equipment, flexible memberships, classes, and a connected member portal.';
+$pageTitle = 'FitProFitness Gym | Premium Fitness Center';
+$pageDescription = 'Join FitProFitness Gym for expert coaching, modern equipment, flexible memberships, classes, and a connected member portal.';
 $activePage = 'home';
 include __DIR__ . '/includes/header.php';
 
@@ -49,7 +49,7 @@ $testimonials = [
 <div class="hero-panel">
 <div class="d-flex justify-content-between align-items-start mb-4">
 <div>
-<span class="eyebrow">Today at FitPro</span>
+<span class="eyebrow">Today at FitProFitness</span>
 <h3 class="fw-bold mt-3 mb-1">Free fitness assessment</h3>
 <p class="text-white-50 mb-0">Start with a trainer-led goal review and a practical workout path.</p>
 </div>
@@ -222,21 +222,58 @@ foreach($stats as $stat):
 </div>
 </div>
 <div class="col-lg-5 reveal">
-<div class="premium-card p-4 h-100">
-<span class="section-kicker">BMI Calculator</span>
-<h3 class="fw-bold mb-3">Check Your Starting Point</h3>
-<form id="bmiForm">
-<label class="form-label">Weight (kg)</label>
-<input id="bmiWeight" class="form-control mb-3" type="number" min="1" step="0.1" required>
-<label class="form-label">Height (cm)</label>
-<input id="bmiHeight" class="form-control mb-3" type="number" min="1" step="0.1" required>
-<button class="btn btn-gradient w-100" type="submit">Calculate BMI</button>
-</form>
-<div id="bmiResult" class="premium-card p-3 mt-3 d-flex justify-content-between align-items-center"><span>Your result appears here</span></div>
+  <div class="premium-card p-4 h-100">
+    <span class="section-kicker">BMI Calculator</span>
+    <h3 class="fw-bold mb-3">Check Your Starting Point</h3>
+    
+    <form id="bmiForm">
+      <label class="form-label">Weight (kg)</label>
+      <input id="bmiWeight" class="form-control mb-3" type="number" min="1" step="0.1" required>
+      
+      <label class="form-label">Height (cm)</label>
+      <input id="bmiHeight" class="form-control mb-3" type="number" min="50" max="250" step="0.1" required>
+      
+      <button class="btn btn-gradient w-100" type="submit">Calculate BMI</button>
+    </form>
+    
+    <!-- Result box -->
+    <div id="bmiResult" class="premium-card p-3 mt-3 text-center">
+      <span>Your result appears here</span>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
+
+<script>
+document.getElementById("bmiForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // ✅ stops page reload
+
+  const weight = parseFloat(document.getElementById("bmiWeight").value);
+  const heightCm = parseFloat(document.getElementById("bmiHeight").value);
+
+  if (!weight || !heightCm) return;
+
+  // Convert cm → meters
+  const heightM = heightCm / 100;
+
+  // BMI formula
+  const bmi = weight / (heightM * heightM);
+
+  // Round to 1 decimal
+  const bmiRounded = bmi.toFixed(1);
+
+  // Determine category
+  let category = "";
+  if (bmi < 18.5) category = "Underweight";
+  else if (bmi < 25) category = "Normal weight";
+  else if (bmi < 30) category = "Overweight";
+  else category = "Obese";
+
+  // Display result inside the same card
+  document.getElementById("bmiResult").innerHTML = 
+    `<span>Your BMI is <strong>${bmiRounded}</strong> (${category})</span>`;
+});
+</script>
+
 </section>
 
 <section class="section-pad section-soft">

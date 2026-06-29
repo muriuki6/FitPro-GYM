@@ -541,21 +541,19 @@ body.dark-mode .price{
 .back-to-top{
     position:fixed;
     right:20px;
-    z-index:1200;
-    width:50px;
-    height:50px;
-    display:grid;
-    place-items:center;
-    color:#fff;
-    border:0;
-    border-radius:50%;
-    box-shadow:0 12px 30px rgba(0,0,0,.22);
+    bottom:20px;
+    font-size:55px;
+    color:#25D366;
+    z-index:999;
 }
 
 .floating-whatsapp{
-    bottom:86px;
-    background:#25d366;
-    font-size:1.35rem;
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    font-size:55px;
+    color:#25D366;
+    z-index:999;
 }
 
 .back-to-top{

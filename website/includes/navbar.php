@@ -2,7 +2,7 @@
 <div class="container">
 <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
 <img src="assets/images/FitPro%20Gym%20Logo.png" alt="FitPro Gym">
-<span>FitPro</span>
+<span>FitProFitness</span>
 </a>
 <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#siteMenu">
 <span class="navbar-toggler-icon"></span>

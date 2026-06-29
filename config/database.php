@@ -1,19 +1,12 @@
 <?php
+$host = "sql312.infinityfree.com";
+$username = "if0_42286109";
+$password = "Muriuki6"; // default for XAMPP
+$dbname = "gym_management"; // your local database name
 
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "gym_management";
+$conn = new mysqli($host, $username, $password, $dbname);
 
-$conn = new mysqli(
-    $host,
-    $user,
-    $password,
-    $database
-);
-
-if($conn->connect_error){
-    die("Connection Failed : " . $conn->connect_error);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
 ?>

@@ -123,7 +123,22 @@
 
 
 
+<li class="nav-item">
 
+<a href="../admin/classes.php"
+class="nav-link">
+
+<i class="fa-solid fa-dumbbell"></i>
+
+<span>
+
+Fitness Classes
+
+</span>
+
+</a>
+
+</li>
 
 <li class="nav-item">
 <a href="payments.php" class="nav-link <?= in_array($currentPage, ['payments.php','receipt.php']) ? 'active' : '' ?>">
